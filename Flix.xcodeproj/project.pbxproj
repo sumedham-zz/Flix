@@ -14,6 +14,7 @@
 		FC2366681D11F36D007A060E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC2366661D11F36D007A060E /* LaunchScreen.storyboard */; };
 		FC2366721D11F463007A060E /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2366711D11F463007A060E /* MoviesViewController.swift */; };
 		FC2366751D120689007A060E /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2366741D120689007A060E /* MovieCell.swift */; };
+		FC23669E1D134698007A060E /* MoiveDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC23669D1D134698007A060E /* MoiveDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		FC2366691D11F36D007A060E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC2366711D11F463007A060E /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
 		FC2366741D120689007A060E /* MovieCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		FC23669D1D134698007A060E /* MoiveDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoiveDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				FC2366711D11F463007A060E /* MoviesViewController.swift */,
+				FC23669D1D134698007A060E /* MoiveDetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC23669E1D134698007A060E /* MoiveDetailsViewController.swift in Sources */,
 				FC23665E1D11F36D007A060E /* AppDelegate.swift in Sources */,
 				FC2366721D11F463007A060E /* MoviesViewController.swift in Sources */,
 				FC2366751D120689007A060E /* MovieCell.swift in Sources */,
