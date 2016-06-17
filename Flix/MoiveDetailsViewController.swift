@@ -21,13 +21,15 @@ class MoiveDetailsViewController: UIViewController {
     var movieTitle: String?
     var movieInfo: String?
     var movieRating: String?
+    var imdbID: String?
     override func viewDidLoad() {
         
         super.viewDidLoad()
         detailImg.setImageWithURL(imgURL!)
         detailTitle.text = movieTitle;
         detailInfo.text = movieInfo;
-        detailRating.text = "\(String(movieRating!))/10"
+        detailRating.text = "Rating: \(String(movieRating!))/10"
+        
     
 
         
@@ -40,8 +42,12 @@ class MoiveDetailsViewController: UIViewController {
     
     
     @IBAction func onMore(sender: AnyObject) {
-        let openLink = NSURL(string : "https://www.google.com")
-        UIApplication.sharedApplication().openURL(openLink!)
+        let name = String(movieTitle!)
+        let url = "http://www.imdb.com/find?ref_=nv_sr_fn&q=\(name)+&s=all"
+        print(url)
+        let remoteUrl = NSURL(string: url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
+        print(remoteUrl)
+        UIApplication.sharedApplication().openURL(remoteUrl!)
     }
 
     /*
