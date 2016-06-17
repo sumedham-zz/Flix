@@ -12,12 +12,20 @@ import MBProgressHUD
 
 class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate {
     
+    
+    
+   //OUTLETS
+    @IBOutlet weak var topFilms: UIButton!
+    @IBOutlet weak var recentFilms: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    
+    
+    //VARIABLES
     var refreshControl = UIRefreshControl()
-    var movies: [NSDictionary]?
- 
-    var filteredData: [NSDictionary]!
+    var movies: [NSDictionary]? //holds all movies for mode poplular OR current
+    var filteredData: [NSDictionary]? //is edited with search
+    var movieData: [NSDictionary]? //Gets data for movie for imdb url
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -28,14 +36,89 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         tableView.insertSubview(refreshControl, atIndex: 0)
         self.loadData(true)
         filteredData = movies
+        clickedRecent(recentFilms)
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        topFilms.titleLabel?.textColor  = UIColor.grayColor() //makes grey color for buttons
     }
     
     func loadData(initial: Bool) {
         
         let apiKey = "41bd51eb709292aba24fa92152fa5604"
         let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let request = NSURLRequest(
+            URL: url!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue())
+        if(initial){
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true) }
+        
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,completionHandler: { (dataOrNil, response, error) in
+            if let data = dataOrNil {
+                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                    self.movies = responseDictionary["results"] as? [NSDictionary]
+                    self.filteredData = self.movies
+                    self.tableView.reloadData()
+                    if(initial) { MBProgressHUD.hideHUDForView(self.view, animated: true) }
+                    else {
+                        self.refreshControl.endRefreshing()
+                    }
+                    
+                }
+            }
+        })
+        task.resume()
+        
+    }
+    
+    func loadDataTop(initial: Bool) {
+        let apiKey = "41bd51eb709292aba24fa92152fa5604"
+        let url = NSURL(string: "http://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)")
+        let request = NSURLRequest(
+            URL: url!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue())
+        if(initial){
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true) }
+        
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,completionHandler: { (dataOrNil, response, error) in
+            if let data = dataOrNil {
+                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                    self.movies = responseDictionary["results"] as? [NSDictionary]
+                    self.filteredData = self.movies
+                    self.tableView.reloadData()
+                    if(initial) { MBProgressHUD.hideHUDForView(self.view, animated: true) }
+                    else {
+                        self.refreshControl.endRefreshing()
+                    }
+                    
+                }
+            }
+        })
+        task.resume()
+        
+    }
+    
+    func getURL(name: String, initial: Bool)
+    {
+        let plusName = String(name.characters.map {
+            $0 == " " ? "+" : $0
+            })
+        let url = NSURL(string: "http://www.omdbapi.com/?t=\(plusName)&y=&plot=short&r=json")
         let request = NSURLRequest(
             URL: url!,
             cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
@@ -74,7 +157,7 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if movies != nil {
-             return filteredData.count
+             return filteredData!.count
         }
         else {return 0;}
     }
@@ -94,10 +177,10 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let viewC = segue.destinationViewController as! MoiveDetailsViewController
         let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)
-        let movie = movies![(indexPath?.row)!]
+        let movie = filteredData![(indexPath?.row)!]
         viewC.movieTitle = movie["title"] as? String
         viewC.movieInfo = movie["overview"] as? String
-        viewC.movieRating = movie["vote_average"] as? Double
+        viewC.movieRating = movie["vote_average"]?.stringValue
         print(viewC.movieRating)
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         if let posterPath = movie["poster_path"] as? String{
@@ -147,6 +230,21 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         
     }
     
+    
+   
+    
+    @IBAction func clickedRecent(sender: AnyObject) {
+        topFilms.titleLabel?.textColor  = UIColor.grayColor()
+        recentFilms.titleLabel?.textColor = UIColor.blueColor()
+        loadData(false)
+    }
+    
+    
+    @IBAction func clickedTop(sender: AnyObject) {
+        topFilms.titleLabel?.textColor = UIColor.redColor()
+        recentFilms.titleLabel?.textColor = UIColor.grayColor()
+        loadDataTop(false)
+    }
 }
 
 

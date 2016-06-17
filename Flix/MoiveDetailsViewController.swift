@@ -15,19 +15,20 @@ class MoiveDetailsViewController: UIViewController {
     @IBOutlet weak var detailImg: UIImageView!
     @IBOutlet weak var detailTitle: UILabel!
     @IBOutlet weak var detailInfo: UILabel!
+    @IBOutlet weak var viewMore: UIButton!
     
     var imgURL: NSURL?
     var movieTitle: String?
     var movieInfo: String?
-    var movieRating: Double?
+    var movieRating: String?
     override func viewDidLoad() {
         
         super.viewDidLoad()
         detailImg.setImageWithURL(imgURL!)
         detailTitle.text = movieTitle;
         detailInfo.text = movieInfo;
-        //let movieR = String(movieRating)
-        //detailRating.text = movieR;
+        detailRating.text = "\(String(movieRating!))/10"
+    
 
         
     }
@@ -37,6 +38,11 @@ class MoiveDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    @IBAction func onMore(sender: AnyObject) {
+        let openLink = NSURL(string : "https://www.google.com")
+        UIApplication.sharedApplication().openURL(openLink!)
+    }
 
     /*
     // MARK: - Navigation
