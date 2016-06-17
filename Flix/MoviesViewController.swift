@@ -97,8 +97,10 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         let movie = movies![(indexPath?.row)!]
         viewC.movieTitle = movie["title"] as? String
         viewC.movieInfo = movie["overview"] as? String
+        viewC.movieRating = movie["vote_average"] as? Double
+        print(viewC.movieRating)
         let baseUrl = "http://image.tmdb.org/t/p/w500"
-        if let posterPath = movie["backdrop_path"] as? String{
+        if let posterPath = movie["poster_path"] as? String{
             viewC.imgURL = NSURL(string: baseUrl + posterPath)
         }
         else {
@@ -108,6 +110,8 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
 
         
     }
+    
+    
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         // When there is no text, filteredData is the same as the original data
@@ -130,6 +134,19 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         }
         tableView.reloadData()
     }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        viewDidLoad()
+        
+    }
+    
 }
 
 

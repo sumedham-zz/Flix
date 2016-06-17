@@ -11,18 +11,23 @@ import AFNetworking
 
 class MoiveDetailsViewController: UIViewController {
     
+    @IBOutlet weak var detailRating: UILabel!
     @IBOutlet weak var detailImg: UIImageView!
     @IBOutlet weak var detailTitle: UILabel!
     @IBOutlet weak var detailInfo: UILabel!
+    
     var imgURL: NSURL?
     var movieTitle: String?
     var movieInfo: String?
+    var movieRating: Double?
     override func viewDidLoad() {
         
         super.viewDidLoad()
         detailImg.setImageWithURL(imgURL!)
         detailTitle.text = movieTitle;
         detailInfo.text = movieInfo;
+        //let movieR = String(movieRating)
+        //detailRating.text = movieR;
 
         
     }
