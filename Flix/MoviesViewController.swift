@@ -176,6 +176,7 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         viewC.movieTitle = movie["title"]as! String //title, overview, vote_average, and image are set
         viewC.movieInfo = movie["overview"] as! String
         viewC.movieRating = movie["vote_average"]?.stringValue
+        viewC.movieRatingD = movie["vote_average"] as! Double;
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         if let posterPath = movie["poster_path"] as? String{
             viewC.imgURL = NSURL(string: baseUrl + posterPath)

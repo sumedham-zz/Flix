@@ -17,18 +17,25 @@ class MoiveDetailsViewController: UIViewController {
     @IBOutlet weak var detailInfo: UILabel!
     @IBOutlet weak var viewMore: UIButton!
     
+    @IBOutlet weak var star5: UIImageView!
+    @IBOutlet weak var star4: UIImageView!
+    @IBOutlet weak var star3: UIImageView!
+    @IBOutlet weak var star2: UIImageView!
+    @IBOutlet weak var star1: UIImageView!
+    
     var imgURL: NSURL?
     var movieTitle: String?
     var movieInfo: String?
     var movieRating: String?
     var imdbID: String?
+    var movieRatingD: Double?
     override func viewDidLoad() {
         
         super.viewDidLoad()
         detailImg.setImageWithURL(imgURL!)
         detailTitle.text = movieTitle;
         detailInfo.text = movieInfo;
-        detailRating.text = "Rating: \(String(movieRating!))/10"
+        GetImage(movieRatingD!)
         
     
 
@@ -48,6 +55,43 @@ class MoiveDetailsViewController: UIViewController {
         let remoteUrl = NSURL(string: url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
         print(remoteUrl)
         UIApplication.sharedApplication().openURL(remoteUrl!)
+    }
+    
+    func GetImage(rating: Double)    {
+        if (rating < 2)
+        {
+        }
+        else if (rating >= 2 && rating < 4)
+        {
+            star1.image=UIImage(named: "Image1")
+        }
+        else if(rating >= 4 && rating < 6) {
+            star1.image=UIImage(named: "Image1")
+            star2.image=UIImage(named: "Image1")
+        }
+        else if(rating >= 6 && rating < 8 ) {
+            star1.image=UIImage(named: "Image1")
+            star2.image=UIImage(named: "Image1")
+            star3.image=UIImage(named: "Image1")
+        }
+        
+        else if(rating >= 6 && rating < 8) {
+            star1.image=UIImage(named: "Image1")
+            star2.image=UIImage(named: "Image1")
+            star3.image=UIImage(named: "Image1")
+            star4.image=UIImage(named: "Image1")
+            
+        }
+        else if(rating >= 10){
+            star1.image=UIImage(named: "Image1")
+            star2.image=UIImage(named: "Image1")
+            star3.image=UIImage(named: "Image1")
+            star4.image=UIImage(named: "Image1")
+            star5.image=UIImage(named: "Image1")
+        }
+        
+        
+        
     }
 
     /*
