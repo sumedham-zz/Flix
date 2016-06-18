@@ -26,6 +26,7 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
     var movies: [NSDictionary]? //holds all movies for mode poplular OR current
     var filteredData: [NSDictionary]? //is edited with search
     var movieData: NSDictionary? //Gets data for movie for imdb url
+    var firstTime = true
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -34,7 +35,7 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
         super.viewDidLoad()
         refreshControl.addTarget(self, action: #selector(loadData(_:)), forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
-        self.loadData(true)
+        loadData(true)
         filteredData = movies
         clickedRecent(recentFilms)
 
@@ -43,7 +44,10 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        if(firstTime) {
         topFilms.titleLabel?.textColor  = UIColor.grayColor() //makes grey color for buttons
+        firstTime = false
+        }
     }
     
     func loadData(initial: Bool) { //loads data for RECENT MOVIES
@@ -219,9 +223,7 @@ class MoviesViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) { //Search is cancelled, all movies are shown
         searchBar.showsCancelButton = false
-        searchBar.text = ""
         searchBar.resignFirstResponder()
-        viewDidLoad()
         
     }
     
